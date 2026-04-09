@@ -2,190 +2,192 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Central Nurses LLC — Admin Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Central Nurses LLC — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --navy:      #0b1e3d;
-  --navy-mid:  #122952;
-  --navy-light:#1a3a6b;
-  --gold:      #c9a84c;
-  --gold-light:#e8c96a;
-  --gold-pale: #f5e9c8;
-  --slate:     #64748b;
-  --slate-light:#94a3b8;
-  --border:    #e2e8f0;
-  --surface:   #f8fafc;
-  --white:     #ffffff;
-  --text:      #1e293b;
-  --text-soft: #475569;
-  --green:     #15803d;
-  --green-bg:  #f0fdf4;
-  --red:       #dc2626;
-  --red-bg:    #fef2f2;
-  --amber:     #b45309;
-  --amber-bg:  #fffbeb;
-  --radius:    6px;
-  --shadow:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
-  --sidebar-w: 240px;
-  --header-h:  60px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0b1e3d;--navy-mid:#122952;--gold:#c9a84c;--gold-light:#e8c96a;
+  --slate:#64748b;--slate-light:#94a3b8;--border:#e2e8f0;--surface:#f8fafc;
+  --white:#fff;--text:#1e293b;--green:#15803d;--green-bg:#f0fdf4;
+  --red:#dc2626;--red-bg:#fef2f2;--amber:#b45309;--amber-bg:#fffbeb;
+  --radius:6px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 12px rgba(0,0,0,.1);
+  --sidebar-w:240px;--header-h:60px;
 }
-html { font-size: 15px; }
-body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--surface); color: var(--text); line-height: 1.6; min-height: 100vh; }
-#loginScreen { position: fixed; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; z-index: 1000; transition: opacity .3s; }
-#loginScreen.hidden { opacity: 0; pointer-events: none; }
-.login-card { background: var(--white); border-radius: var(--radius); padding: 44px 40px; width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
-.login-logo { text-align: center; margin-bottom: 32px; }
-.login-logo-mark { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: var(--navy); border-radius: var(--radius); margin-bottom: 14px; position: relative; }
-.login-logo-mark::before, .login-logo-mark::after { content: ''; position: absolute; background: var(--gold); border-radius: 2px; }
-.login-logo-mark::before { width: 5px; height: 26px; }
-.login-logo-mark::after  { width: 26px; height: 5px; }
-.login-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 700; color: var(--navy); letter-spacing: .3px; }
-.login-sub   { font-size: 11px; color: var(--slate); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
-.login-card h2 { font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-.login-card p  { font-size: 13px; color: var(--slate); margin-bottom: 24px; }
-.form-group { margin-bottom: 18px; }
-.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; letter-spacing: .3px; }
-.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 14px; color: var(--text); background: var(--white); transition: border-color .15s, box-shadow .15s; outline: none; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(11,30,61,.08); }
-.form-group textarea { resize: vertical; min-height: 80px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: none; border-radius: var(--radius); font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .15s; text-decoration: none; }
-.btn-primary { background: var(--navy); color: var(--white); width: 100%; justify-content: center; padding: 12px; }
-.btn-primary:hover { background: var(--navy-mid); }
-.btn-gold   { background: var(--gold); color: var(--navy); }
-.btn-gold:hover { background: var(--gold-light); }
-.btn-ghost  { background: transparent; color: var(--slate); border: 1px solid var(--border); }
-.btn-ghost:hover { background: var(--surface); }
-.btn-danger { background: var(--red-bg); color: var(--red); }
-.btn-sm     { padding: 6px 14px; font-size: 12px; }
-.btn-full   { width: 100%; justify-content: center; }
-.login-error { color: var(--red); font-size: 12.5px; margin-top: 10px; display: none; }
-#app { display: none; }
-#app.visible { display: flex; min-height: 100vh; }
-.sidebar { width: var(--sidebar-w); background: var(--navy); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; overflow-y: auto; }
-.sidebar-head { padding: 22px 20px 18px; border-bottom: 1px solid rgba(255,255,255,.08); }
-.sidebar-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--gold); letter-spacing: .3px; }
-.sidebar-sub   { font-size: 10px; color: rgba(255,255,255,.35); letter-spacing: 2px; text-transform: uppercase; margin-top: 3px; }
-.sidebar-section { padding: 16px 12px 6px; }
-.sidebar-section-label { font-size: 10px; font-weight: 600; color: rgba(255,255,255,.25); letter-spacing: 1.5px; text-transform: uppercase; padding: 0 8px; margin-bottom: 4px; }
-.sidebar-nav { list-style: none; }
-.sidebar-nav li { margin-bottom: 2px; }
-.sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 5px; color: rgba(255,255,255,.6); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: all .15s; }
-.sidebar-nav a:hover { background: rgba(255,255,255,.06); color: var(--white); }
-.sidebar-nav a.active { background: rgba(201,168,76,.15); color: var(--gold-light); }
-.nav-icon { width: 16px; height: 16px; opacity: .7; flex-shrink: 0; }
-.sidebar-nav a.active .nav-icon { opacity: 1; }
-.dispatch-status { margin: 12px; border-radius: var(--radius); padding: 10px 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
-.dispatch-status-label { font-size: 10px; color: rgba(255,255,255,.35); letter-spacing: 1px; text-transform: uppercase; }
-.dispatch-status-value { font-size: 12px; font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
-.status-dot { width: 7px; height: 7px; border-radius: 50%; }
-.status-dot.on  { background: #4ade80; box-shadow: 0 0 6px #4ade80; }
-.status-dot.off { background: var(--slate-light); }
-.main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-.topbar { height: var(--header-h); background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; position: sticky; top: 0; z-index: 50; gap: 16px; }
-.topbar-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); flex: 1; }
-.topbar-actions { display: flex; gap: 10px; align-items: center; }
-.page { padding: 28px; display: none; }
-.page.active { display: block; }
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
-.stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden; }
-.stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); }
-.stat-label { font-size: 11px; font-weight: 600; color: var(--slate); letter-spacing: .5px; text-transform: uppercase; }
-.stat-value { font-size: 28px; font-weight: 700; color: var(--navy); font-family: 'Playfair Display', serif; margin-top: 4px; line-height: 1; }
-.stat-sub   { font-size: 11px; color: var(--slate-light); margin-top: 5px; }
-.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow); }
-.card-head { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-.card-title { font-size: 14px; font-weight: 600; color: var(--navy); flex: 1; }
-.card-body  { padding: 20px; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-thead th { padding: 10px 14px; font-size: 11px; font-weight: 600; color: var(--slate); letter-spacing: .5px; text-transform: uppercase; background: var(--surface); border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
-tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .1s; }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #fafbfc; }
-tbody td { padding: 11px 14px; font-size: 13.5px; }
-.badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 50px; font-size: 11px; font-weight: 600; letter-spacing: .3px; }
-.badge-green  { background: var(--green-bg);  color: var(--green); }
-.badge-red    { background: var(--red-bg);    color: var(--red); }
-.badge-amber  { background: var(--amber-bg);  color: var(--amber); }
-.badge-navy   { background: #eef2ff; color: var(--navy); }
-.badge-slate  { background: #f1f5f9; color: var(--slate); }
-.badge-gold   { background: var(--gold-pale); color: #92670c; }
-.disc-rn  { background: #dbeafe; color: #1e40af; }
-.disc-lpn { background: #dcfce7; color: #15803d; }
-.disc-cna { background: #fae8ff; color: #7e22ce; }
-.disc-cma { background: #ffedd5; color: #c2410c; }
-.dec-dispatched { color: var(--green); font-weight: 600; }
-.dec-ignored    { color: var(--slate); }
-.dec-error      { color: var(--red); }
-.filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
-.filter-bar input, .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 13px; color: var(--text); background: var(--white); outline: none; transition: border-color .15s; }
-.filter-bar input:focus, .filter-bar select:focus { border-color: var(--navy); }
-.filter-bar input[type="search"] { min-width: 220px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(2px); z-index: 500; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal { background: var(--white); border-radius: var(--radius); width: 90%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.15); transform: translateY(10px); transition: transform .2s; }
-.modal-overlay.open .modal { transform: translateY(0); }
-.modal-head { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.modal-head h3 { font-size: 16px; font-weight: 600; color: var(--navy); }
-.modal-body { padding: 24px; }
-.modal-foot { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
-.close-btn { background: none; border: none; cursor: pointer; color: var(--slate); font-size: 20px; line-height: 1; padding: 2px 6px; border-radius: 4px; }
-.close-btn:hover { background: var(--surface); }
-.toggle { position: relative; display: inline-block; width: 42px; height: 24px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 24px; cursor: pointer; transition: background .2s; }
-.toggle-slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
-.toggle input:checked + .toggle-slider { background: var(--green); }
-.toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
-.spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
-@keyframes spin { to { transform: rotate(360deg); } }
-#toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: var(--white); padding: 12px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 500; box-shadow: var(--shadow-md); transform: translateY(20px); opacity: 0; transition: all .25s; z-index: 9999; max-width: 320px; }
-#toast.show { transform: translateY(0); opacity: 1; }
-#toast.success { background: var(--green); }
-#toast.error   { background: var(--red); }
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
-.section-head h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
-.section-sub { font-size: 12.5px; color: var(--slate); margin-top: 2px; }
-.cred-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-.cred-item { padding: 10px 14px; border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; }
-.cred-item-label { color: var(--slate); font-weight: 600; margin-bottom: 2px; font-size: 11px; }
-.empty-state { text-align: center; padding: 48px 20px; color: var(--slate-light); }
-@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
-@media (max-width: 768px) { :root { --sidebar-w: 0px; } .sidebar { transform: translateX(-240px); width: 240px; transition: transform .25s; } .main { margin-left: 0; } .page { padding: 16px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+html{font-size:15px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--surface);color:var(--text);line-height:1.6;min-height:100vh}
+
+/* ── LOGIN ─────────────────────────────────────────────────── */
+#loginScreen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity .3s}
+#loginScreen.hidden{opacity:0;pointer-events:none}
+.login-card{background:var(--white);border-radius:var(--radius);padding:44px 40px;width:400px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.login-logo{text-align:center;margin-bottom:32px}
+.login-logo-mark{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;background:var(--navy);border-radius:var(--radius);margin-bottom:14px;position:relative}
+.login-logo-mark::before,.login-logo-mark::after{content:'';position:absolute;background:var(--gold);border-radius:2px}
+.login-logo-mark::before{width:5px;height:26px}
+.login-logo-mark::after{width:26px;height:5px}
+.login-brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy)}
+.login-sub{font-size:11px;color:var(--slate);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.login-card h2{font-size:18px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.login-card>p{font-size:13px;color:var(--slate);margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:14px;color:var(--text);background:var(--white);transition:border-color .15s,box-shadow .15s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,61,.08)}
+.form-group textarea{resize:vertical;min-height:80px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:none;border-radius:var(--radius);font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-primary{background:var(--navy);color:var(--white);width:100%;justify-content:center;padding:12px}
+.btn-primary:hover{background:var(--navy-mid)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-ghost{background:transparent;color:var(--slate);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--surface)}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-full{width:100%;justify-content:center}
+.login-error{color:var(--red);font-size:12.5px;margin-top:10px;display:none}
+
+/* ── APP LAYOUT ─────────────────────────────────────────────── */
+#app{display:none}
+#app.visible{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto}
+.sidebar-head{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-brand{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold)}
+.sidebar-sub{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.sidebar-section{padding:16px 12px 6px}
+.sidebar-section-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.25);letter-spacing:1.5px;text-transform:uppercase;padding:0 8px;margin-bottom:4px}
+.sidebar-nav{list-style:none}
+.sidebar-nav li{margin-bottom:2px}
+.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:5px;color:rgba(255,255,255,.6);text-decoration:none;font-size:13.5px;font-weight:500;transition:all .15s;cursor:pointer}
+.sidebar-nav a:hover{background:rgba(255,255,255,.06);color:var(--white)}
+.sidebar-nav a.active{background:rgba(201,168,76,.15);color:var(--gold-light)}
+.dispatch-pill{margin:12px;border-radius:var(--radius);padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.dispatch-pill-label{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase}
+.dispatch-pill-value{font-size:12px;font-weight:600;margin-top:4px;display:flex;align-items:center;gap:6px;color:var(--white)}
+.dot{width:7px;height:7px;border-radius:50%}
+.dot.on{background:#4ade80;box-shadow:0 0 6px #4ade80}
+.dot.off{background:var(--slate-light)}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;position:sticky;top:0;z-index:50;gap:16px}
+.topbar-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);flex:1}
+.topbar-actions{display:flex;gap:10px;align-items:center}
+.page{padding:28px;display:none}
+.page.active{display:block}
+
+/* ── STATS ──────────────────────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.stat-label{font-size:11px;font-weight:600;color:var(--slate);letter-spacing:.5px;text-transform:uppercase}
+.stat-value{font-size:28px;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;margin-top:4px;line-height:1}
+.stat-sub{font-size:11px;color:var(--slate-light);margin-top:5px}
+
+/* ── CARDS ──────────────────────────────────────────────────── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow)}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.card-title{font-size:14px;font-weight:600;color:var(--navy);flex:1}
+.card-body{padding:20px}
+
+/* ── TABLE ──────────────────────────────────────────────────── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 14px;font-size:11px;font-weight:600;color:var(--slate);letter-spacing:.5px;text-transform:uppercase;background:var(--surface);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid #f1f5f9;transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#fafbfc}
+tbody td{padding:11px 14px;font-size:13.5px}
+
+/* ── BADGES ─────────────────────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:50px;font-size:11px;font-weight:600}
+.badge-green{background:var(--green-bg);color:var(--green)}
+.badge-red{background:var(--red-bg);color:var(--red)}
+.badge-amber{background:var(--amber-bg);color:var(--amber)}
+.badge-navy{background:#eef2ff;color:var(--navy)}
+.badge-slate{background:#f1f5f9;color:var(--slate)}
+.badge-gold{background:#fef3c7;color:#92670c}
+.disc-rn{background:#dbeafe;color:#1e40af}
+.disc-lpn{background:#dcfce7;color:#15803d}
+.disc-cna{background:#fae8ff;color:#7e22ce}
+.disc-cma{background:#ffedd5;color:#c2410c}
+.dec-dispatched{color:var(--green);font-weight:600}
+.dec-ignored{color:var(--slate)}
+.dec-error{color:var(--red)}
+
+/* ── FILTER BAR ─────────────────────────────────────────────── */
+.filter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.filter-bar input,.filter-bar select{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);background:var(--white);outline:none;transition:border-color .15s}
+.filter-bar input:focus,.filter-bar select:focus{border-color:var(--navy)}
+.filter-bar input[type=search]{min-width:220px}
+
+/* ── GRID ───────────────────────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* ── MODAL ──────────────────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:var(--radius);width:90%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);transform:translateY(10px);transition:transform .2s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-head{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-head h3{font-size:16px;font-weight:600;color:var(--navy)}
+.modal-body{padding:24px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.close-btn{background:none;border:none;cursor:pointer;color:var(--slate);font-size:20px;line-height:1;padding:2px 6px;border-radius:4px}
+.close-btn:hover{background:var(--surface)}
+
+/* ── TOGGLE ─────────────────────────────────────────────────── */
+.toggle{position:relative;display:inline-block;width:42px;height:24px}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:24px;cursor:pointer;transition:background .2s}
+.toggle-slider::before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle input:checked+.toggle-slider{background:var(--green)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
+
+/* ── MISC ───────────────────────────────────────────────────── */
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:var(--white);padding:12px 20px;border-radius:var(--radius);font-size:13.5px;font-weight:500;box-shadow:var(--shadow-md);transform:translateY(20px);opacity:0;transition:all .25s;z-index:9999;max-width:320px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:var(--green)}
+#toast.error{background:var(--red)}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.section-head h2{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy)}
+.section-sub{font-size:12.5px;color:var(--slate);margin-top:2px}
+.cred-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.cred-item{padding:10px 14px;border:1px solid var(--border);border-radius:5px;font-size:12.5px}
+.cred-item-label{color:var(--slate);font-weight:600;margin-bottom:2px;font-size:11px}
+.empty-state{text-align:center;padding:48px 20px;color:var(--slate-light)}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 </style>
 </head>
 <body>
 
+<!-- ── LOGIN ─────────────────────────────────────────────────── -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">
       <div class="login-logo-mark"></div>
       <div class="login-brand">CENTRAL NURSES</div>
-      <div class="login-sub">LLC &nbsp;·&nbsp; Staffing Agency</div>
+      <div class="login-sub">LLC · Staffing Agency</div>
     </div>
     <h2>Admin Access</h2>
-    <p>Enter your password to access the management dashboard.</p>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"/>
-    </div>
+    <p>Sign in with your admin credentials.</p>
+    <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="admin" autocomplete="username"/></div>
+    <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"/></div>
     <button class="btn btn-primary" onclick="login()">Sign In</button>
-    <p class="login-error" id="loginErr">Incorrect password. Please try again.</p>
+    <p class="login-error" id="loginErr">Incorrect username or password.</p>
   </div>
 </div>
 
+<!-- ── APP ──────────────────────────────────────────────────── -->
 <div id="app">
-  <aside class="sidebar" id="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-head">
       <div class="sidebar-brand">CENTRAL NURSES</div>
       <div class="sidebar-sub">Admin Dashboard</div>
@@ -193,53 +195,48 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
     <div class="sidebar-section">
       <div class="sidebar-section-label">Overview</div>
       <ul class="sidebar-nav">
-        <li><a href="#" onclick="nav('dashboard')" class="active" id="nav-dashboard">
-          <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
-          Dashboard
-        </a></li>
+        <li><a onclick="nav('dashboard')" id="nav-dashboard">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+          Dashboard</a></li>
       </ul>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-section-label">Dispatch</div>
       <ul class="sidebar-nav">
-        <li><a href="#" onclick="nav('dispatch')" id="nav-dispatch">
-          <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm1 0v10h12V2H2zm2 2h8v1H4V4zm0 3h8v1H4V7zm0 3h5v1H4v-1z"/></svg>
-          Dispatch Log
-        </a></li>
+        <li><a onclick="nav('dispatch')" id="nav-dispatch">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg>
+          Dispatch Log</a></li>
+        <li><a onclick="nav('clients')" id="nav-clients">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+          Client Facilities</a></li>
       </ul>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-section-label">Staff</div>
       <ul class="sidebar-nav">
-        <li><a href="#" onclick="nav('staff')" id="nav-staff">
-          <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z"/></svg>
-          All Staff
-        </a></li>
-        <li><a href="#" onclick="nav('staff','RN')" id="nav-RN"><span class="nav-icon badge disc-rn" style="font-size:9px;padding:1px 5px;">RN</span>Registered Nurses</a></li>
-        <li><a href="#" onclick="nav('staff','LPN')" id="nav-LPN"><span class="nav-icon badge disc-lpn" style="font-size:9px;padding:1px 5px;">LPN</span>LPN Staff</a></li>
-        <li><a href="#" onclick="nav('staff','CNA')" id="nav-CNA"><span class="nav-icon badge disc-cna" style="font-size:9px;padding:1px 5px;">CNA</span>CNA Staff</a></li>
-        <li><a href="#" onclick="nav('staff','CMA')" id="nav-CMA"><span class="nav-icon badge disc-cma" style="font-size:9px;padding:1px 5px;">CMA</span>CMA Staff</a></li>
+        <li><a onclick="nav('staff')" id="nav-staff">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+          All Staff</a></li>
+        <li><a onclick="nav('staff','RN')" id="nav-RN"><span class="badge disc-rn" style="font-size:9px;padding:1px 6px;margin-right:2px;">RN</span>Registered Nurses</a></li>
+        <li><a onclick="nav('staff','LPN')" id="nav-LPN"><span class="badge disc-lpn" style="font-size:9px;padding:1px 6px;margin-right:2px;">LPN</span>LPN Staff</a></li>
+        <li><a onclick="nav('staff','CNA')" id="nav-CNA"><span class="badge disc-cna" style="font-size:9px;padding:1px 6px;margin-right:2px;">CNA</span>CNA Staff</a></li>
+        <li><a onclick="nav('staff','CMA')" id="nav-CMA"><span class="badge disc-cma" style="font-size:9px;padding:1px 6px;margin-right:2px;">CMA</span>CMA Staff</a></li>
       </ul>
     </div>
     <div class="sidebar-section">
-      <div class="sidebar-section-label">Operations</div>
+      <div class="sidebar-section-label">Automation</div>
       <ul class="sidebar-nav">
-        <li><a href="#" onclick="nav('sentlog')" id="nav-sentlog">
-          <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm.05 3.555L8 8.414l5.95-2.859A.5.5 0 0 1 14 6v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a.5.5 0 0 1 .05-.445z"/></svg>
-          Message Log
-        </a></li>
-        <li><a href="#" onclick="nav('templates')" id="nav-templates">
-          <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-1 0h-3.5A1.5 1.5 0 0 1 8 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/></svg>
-          Templates
-        </a></li>
+        <li><a onclick="nav('sentlog')" id="nav-sentlog">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg>
+          Message Log</a></li>
+        <li><a onclick="nav('templates')" id="nav-templates">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/></svg>
+          Templates</a></li>
       </ul>
     </div>
-    <div class="dispatch-status" id="dispatchStatusWidget">
-      <div class="dispatch-status-label">Dispatch Engine</div>
-      <div class="dispatch-status-value">
-        <span class="status-dot" id="statusDot"></span>
-        <span id="statusText">Checking...</span>
-      </div>
+    <div class="dispatch-pill">
+      <div class="dispatch-pill-label">Dispatch Engine</div>
+      <div class="dispatch-pill-value"><span class="dot" id="statusDot"></span><span id="statusText">Checking...</span></div>
     </div>
   </aside>
 
@@ -247,54 +244,55 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
     <header class="topbar">
       <div class="topbar-title" id="pageTitle">Dashboard</div>
       <div class="topbar-actions">
-        <button class="btn btn-ghost btn-sm" onclick="refreshPage()">Refresh</button>
-        <button class="btn btn-gold btn-sm" onclick="openModal('addStaffModal')">Add Staff</button>
+        <button class="btn btn-ghost btn-sm" onclick="refreshPage()">↻ Refresh</button>
+        <button class="btn btn-gold btn-sm" onclick="openModal('addStaffModal')">+ Add Staff</button>
         <button class="btn btn-ghost btn-sm" onclick="logout()">Sign Out</button>
       </div>
     </header>
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD ──────────────────────────────────────────── -->
     <div class="page active" id="page-dashboard">
       <div class="section-head">
-        <div><h2>Dashboard</h2><div class="section-sub">System overview for Central Nurses LLC</div></div>
-        <div style="display:flex;gap:10px;">
+        <div><h2>Dashboard</h2><div class="section-sub">Central Nurses LLC — Record Management</div></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="btn btn-ghost btn-sm" onclick="runJob('runBirthdays')">Run Birthdays</button>
-          <button class="btn btn-ghost btn-sm" onclick="runJob('runExpiry')">Run Expiry Check</button>
-          <button class="btn btn-gold btn-sm" onclick="runJob('runDispatch')">Run Dispatch Now</button>
+          <button class="btn btn-ghost btn-sm" onclick="runJob('runExpiry')">Run Expiry</button>
+          <button class="btn btn-gold btn-sm" onclick="runJob('runDispatch')">Run Dispatch</button>
         </div>
       </div>
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-label">Total Staff</div><div class="stat-value" id="stat-total">—</div><div class="stat-sub">All disciplines</div></div>
-        <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value" id="stat-active">—</div><div class="stat-sub">Currently active</div></div>
+        <div class="stat-card"><div class="stat-label">Active Staff</div><div class="stat-value" id="stat-active">—</div><div class="stat-sub">Currently active</div></div>
+        <div class="stat-card"><div class="stat-label">Total Clients</div><div class="stat-value" id="stat-clients">—</div><div class="stat-sub">Registered facilities</div></div>
         <div class="stat-card"><div class="stat-label">Dispatched Today</div><div class="stat-value" id="stat-dispatched">—</div><div class="stat-sub">Shifts sent today</div></div>
-        <div class="stat-card"><div class="stat-label">Messages Sent</div><div class="stat-value" id="stat-msgs">—</div><div class="stat-sub">Last 7 days</div></div>
       </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-head">
-            <div class="card-title">Dispatch System</div>
+            <div class="card-title">Dispatch Engine</div>
             <label class="toggle"><input type="checkbox" id="dispatchToggle" onchange="toggleDispatch(this)"/><span class="toggle-slider"></span></label>
           </div>
           <div class="card-body">
-            <p style="font-size:13px;color:var(--slate);line-height:1.7;">The dispatch engine scans your Gmail inbox every 5 minutes. It uses Gemini AI to confirm only legitimate facility shift requests and automatically notifies matching active staff. Non-facility emails are never marked as read.</p>
-            <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-              <button class="btn btn-gold btn-sm" onclick="runJob('runDispatch')">Run Cycle Now</button>
+            <p style="font-size:13px;color:var(--slate);line-height:1.7;margin-bottom:14px;">Scans Gmail every 5 minutes. Gemini AI filters genuine facility shift requests only. Non-facility emails are never marked read.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-gold btn-sm" onclick="runJob('runDispatch')">Run Now</button>
               <button class="btn btn-ghost btn-sm" onclick="nav('dispatch')">View Log</button>
+              <button class="btn btn-ghost btn-sm" onclick="nav('clients')">Manage Clients</button>
             </div>
           </div>
         </div>
         <div class="card">
           <div class="card-head"><div class="card-title">Quick Actions</div></div>
           <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
-            <button class="btn btn-ghost btn-full" onclick="openBulkModal()">Send Bulk Message</button>
-            <button class="btn btn-ghost btn-full" onclick="runJob('runBirthdays')">Check Birthdays Now</button>
-            <button class="btn btn-ghost btn-full" onclick="runJob('runHolidays')">Check Holidays Now</button>
-            <button class="btn btn-ghost btn-full" onclick="runJob('runExpiry')">Run Expiry Check Now</button>
+            <button class="btn btn-ghost btn-full" onclick="openBulkModal()">📧 Send Bulk Message</button>
+            <button class="btn btn-ghost btn-full" onclick="runJob('runBirthdays')">🎂 Send Birthday Messages</button>
+            <button class="btn btn-ghost btn-full" onclick="runJob('runHolidays')">🎉 Send Holiday Messages</button>
+            <button class="btn btn-ghost btn-full" onclick="runJob('runExpiry')">⏰ Run Expiry Check</button>
           </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-head"><div class="card-title">Recent Dispatch Activity</div><button class="btn btn-ghost btn-sm" onclick="nav('dispatch')">View All</button></div>
+        <div class="card-head"><div class="card-title">Recent Dispatch Activity</div><button class="btn btn-ghost btn-sm" onclick="nav('dispatch')">View All →</button></div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Time</th><th>Subject</th><th>From</th><th>Decision</th><th>Role</th><th>Notified</th></tr></thead>
@@ -304,9 +302,9 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
       </div>
     </div>
 
-    <!-- DISPATCH LOG -->
+    <!-- DISPATCH LOG ────────────────────────────────────────── -->
     <div class="page" id="page-dispatch">
-      <div class="section-head"><div><h2>Dispatch Log</h2><div class="section-sub">All incoming emails evaluated by the system</div></div></div>
+      <div class="section-head"><div><h2>Dispatch Log</h2><div class="section-sub">Emails evaluated by the AI dispatch system</div></div></div>
       <div class="filter-bar">
         <input type="search" id="dispatchSearch" placeholder="Search subject or facility..." oninput="filterDispatch()"/>
         <select id="dispatchFilter" onchange="filterDispatch()">
@@ -316,44 +314,58 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
           <option value="error">Error</option>
         </select>
       </div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Timestamp</th><th>Subject</th><th>From</th><th>Decision</th><th>Role</th><th>Date</th><th>Facility</th><th>Notified</th><th>Reason</th></tr></thead>
-            <tbody id="dispatchTable"><tr><td colspan="9"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="card"><div class="table-wrap"><table>
+        <thead><tr><th>Timestamp</th><th>Subject</th><th>From</th><th>Decision</th><th>Role</th><th>Date</th><th>Facility</th><th>Notified</th><th>Reason</th></tr></thead>
+        <tbody id="dispatchTable"><tr><td colspan="9"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
+      </table></div></div>
     </div>
 
-    <!-- STAFF -->
+    <!-- CLIENT FACILITIES ──────────────────────────────────── -->
+    <div class="page" id="page-clients">
+      <div class="section-head">
+        <div><h2>Client Facilities</h2><div class="section-sub">Facilities that request staff. Add emails/phones to enable dispatch.</div></div>
+        <button class="btn btn-gold btn-sm" onclick="openModal('addClientModal')">+ Add Facility</button>
+      </div>
+      <div class="filter-bar">
+        <input type="search" id="clientSearch" placeholder="Search facility or contact..." oninput="filterClients()"/>
+        <select id="clientDiscFilter" onchange="filterClients()">
+          <option value="">All Disciplines</option>
+          <option value="RN">RN</option><option value="LPN">LPN</option>
+          <option value="CNA">CNA</option><option value="CMA">CMA</option>
+          <option value="All">All</option>
+        </select>
+      </div>
+      <div class="card"><div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>Facility</th><th>Contact</th><th>Email</th><th>Phone</th><th>Discipline</th><th>Active</th><th>Actions</th></tr></thead>
+        <tbody id="clientTable"><tr><td colspan="8"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
+      </table></div></div>
+    </div>
+
+    <!-- STAFF ──────────────────────────────────────────────── -->
     <div class="page" id="page-staff">
       <div class="section-head">
         <div><h2 id="staffPageTitle">All Staff</h2><div class="section-sub" id="staffPageSub">All disciplines</div></div>
-        <button class="btn btn-gold btn-sm" onclick="openModal('addStaffModal')">Add Staff Member</button>
+        <button class="btn btn-gold btn-sm" onclick="openModal('addStaffModal')">+ Add Staff</button>
       </div>
       <div class="filter-bar">
-        <input type="search" id="staffSearch" placeholder="Search by name, ID, or facility..." oninput="filterStaff()"/>
+        <input type="search" id="staffSearch" placeholder="Search name, ID, or facility..." oninput="filterStaff()"/>
         <select id="staffDiscFilter" onchange="filterStaff()">
           <option value="">All Disciplines</option>
-          <option value="RN">RN</option><option value="LPN">LPN</option><option value="CNA">CNA</option><option value="CMA">CMA</option>
+          <option value="RN">RN</option><option value="LPN">LPN</option>
+          <option value="CNA">CNA</option><option value="CMA">CMA</option>
         </select>
         <select id="staffStatusFilter" onchange="filterStaff()">
           <option value="">All Statuses</option>
           <option value="Active">Active</option><option value="Inactive">Inactive</option>
         </select>
       </div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="staffTable"><tr><td colspan="7"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="card"><div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="staffTable"><tr><td colspan="7"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
+      </table></div></div>
     </div>
 
-    <!-- SENT LOG -->
+    <!-- MESSAGE LOG ────────────────────────────────────────── -->
     <div class="page" id="page-sentlog">
       <div class="section-head"><div><h2>Message Log</h2><div class="section-sub">All automated and manual messages sent</div></div></div>
       <div class="filter-bar">
@@ -365,39 +377,33 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
           <option value="sms">SMS</option><option value="bulk_email">Bulk</option>
         </select>
       </div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Sent At</th><th>Type</th><th>Recipient</th><th>Subject / Message</th><th>Status</th><th>Template</th></tr></thead>
-            <tbody id="logTable"><tr><td colspan="6"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="card"><div class="table-wrap"><table>
+        <thead><tr><th>Sent At</th><th>Type</th><th>Recipient</th><th>Subject</th><th>Status</th></tr></thead>
+        <tbody id="logTable"><tr><td colspan="5"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
+      </table></div></div>
     </div>
 
-    <!-- TEMPLATES -->
+    <!-- TEMPLATES ──────────────────────────────────────────── -->
     <div class="page" id="page-templates">
       <div class="section-head"><div><h2>Message Templates</h2><div class="section-sub">Email and SMS templates for automated messages</div></div></div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>ID</th><th>Type</th><th>Name</th><th>Subject</th><th>Active</th><th>Actions</th></tr></thead>
-            <tbody id="templateTable"><tr><td colspan="6"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="card"><div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>Type</th><th>Name</th><th>Subject</th><th>Active</th><th>Actions</th></tr></thead>
+        <tbody id="templateTable"><tr><td colspan="6"><div class="empty-state"><div class="spinner"></div></div></td></tr></tbody>
+      </table></div></div>
     </div>
   </main>
 </div>
 
-<!-- MODALS -->
+<!-- ── MODALS ────────────────────────────────────────────────── -->
+
+<!-- Add Staff -->
 <div class="modal-overlay" id="addStaffModal">
   <div class="modal">
     <div class="modal-head"><h3>Add Staff Member</h3><button class="close-btn" onclick="closeModal('addStaffModal')">&times;</button></div>
     <div class="modal-body">
       <div class="grid-2">
-        <div class="form-group"><label>Full Name</label><input type="text" id="new-name" placeholder="First Last"/></div>
-        <div class="form-group"><label>Discipline</label><select id="new-disc"><option value="RN">RN</option><option value="LPN">LPN</option><option value="CNA">CNA</option><option value="CMA">CMA</option></select></div>
+        <div class="form-group"><label>Full Name *</label><input type="text" id="new-name" placeholder="First Last"/></div>
+        <div class="form-group"><label>Discipline *</label><select id="new-disc"><option value="RN">RN</option><option value="LPN">LPN</option><option value="CNA">CNA</option><option value="CMA">CMA</option></select></div>
         <div class="form-group"><label>Email Address</label><input type="email" id="new-email" placeholder="name@email.com"/></div>
         <div class="form-group"><label>Phone Number</label><input type="tel" id="new-phone" placeholder="3165551234"/></div>
         <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="new-rate" value="25" min="0"/></div>
@@ -405,7 +411,7 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
         <div class="form-group"><label>Date of Birth</label><input type="text" id="new-dob" placeholder="MM/DD/YYYY"/></div>
         <div class="form-group"><label>Hire Date</label><input type="text" id="new-hire" placeholder="YYYY-MM-DD"/></div>
       </div>
-      <div class="form-group"><label>Facility</label><input type="text" id="new-facility" placeholder="Primary facility name"/></div>
+      <div class="form-group"><label>Facility</label><input type="text" id="new-facility" placeholder="Primary facility"/></div>
       <div class="form-group"><label>Notes</label><textarea id="new-notes" placeholder="Any relevant notes..."></textarea></div>
     </div>
     <div class="modal-foot">
@@ -415,14 +421,16 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
   </div>
 </div>
 
+<!-- Staff Detail -->
 <div class="modal-overlay" id="staffDetailModal">
   <div class="modal" style="max-width:680px;">
     <div class="modal-head"><h3 id="detailName">Staff Details</h3><button class="close-btn" onclick="closeModal('staffDetailModal')">&times;</button></div>
-    <div class="modal-body" id="staffDetailBody">Loading...</div>
+    <div class="modal-body" id="staffDetailBody"><div class="empty-state"><div class="spinner"></div></div></div>
     <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('staffDetailModal')">Close</button></div>
   </div>
 </div>
 
+<!-- Edit Staff -->
 <div class="modal-overlay" id="editStaffModal">
   <div class="modal">
     <div class="modal-head"><h3>Edit Staff Member</h3><button class="close-btn" onclick="closeModal('editStaffModal')">&times;</button></div>
@@ -435,23 +443,76 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
         <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="edit-rate"/></div>
         <div class="form-group"><label>Status</label><select id="edit-status"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
         <div class="form-group"><label>Date of Birth</label><input type="text" id="edit-dob" placeholder="MM/DD/YYYY"/></div>
+        <div class="form-group"><label>Hire Date</label><input type="text" id="edit-hire" placeholder="YYYY-MM-DD"/></div>
+        <div class="form-group"><label>Facility</label><input type="text" id="edit-facility"/></div>
       </div>
       <div class="form-group"><label>Notes</label><textarea id="edit-notes"></textarea></div>
     </div>
     <div class="modal-foot">
+      <button class="btn btn-danger btn-sm" onclick="deleteStaffConfirm()" style="margin-right:auto;">Delete</button>
       <button class="btn btn-ghost" onclick="closeModal('editStaffModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveStaff()">Save Changes</button>
     </div>
   </div>
 </div>
 
+<!-- Add Client -->
+<div class="modal-overlay" id="addClientModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Add Client Facility</h3><button class="close-btn" onclick="closeModal('addClientModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="grid-2">
+        <div class="form-group"><label>Facility Name *</label><input type="text" id="cl-facility" placeholder="Sunrise Care Home"/></div>
+        <div class="form-group"><label>Contact Name</label><input type="text" id="cl-contact" placeholder="Jane Smith"/></div>
+        <div class="form-group"><label>Email Address</label><input type="email" id="cl-email" placeholder="contact@facility.com"/></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="cl-phone" placeholder="3165551234"/></div>
+        <div class="form-group"><label>Discipline Needed</label><select id="cl-disc"><option value="All">All</option><option value="RN">RN</option><option value="LPN">LPN</option><option value="CNA">CNA</option><option value="CMA">CMA</option></select></div>
+        <div class="form-group"><label>Active</label><select id="cl-active"><option value="TRUE">Yes</option><option value="FALSE">No</option></select></div>
+      </div>
+      <div class="form-group"><label>Address</label><input type="text" id="cl-address" placeholder="123 Main St, Wichita, KS"/></div>
+      <div class="form-group"><label>Notes</label><textarea id="cl-notes" placeholder="Any notes about this facility..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('addClientModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addClient()">Add Facility</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Client -->
+<div class="modal-overlay" id="editClientModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Edit Client Facility</h3><button class="close-btn" onclick="closeModal('editClientModal')">&times;</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="ecl-id"/>
+      <div class="grid-2">
+        <div class="form-group"><label>Facility Name</label><input type="text" id="ecl-facility"/></div>
+        <div class="form-group"><label>Contact Name</label><input type="text" id="ecl-contact"/></div>
+        <div class="form-group"><label>Email Address</label><input type="email" id="ecl-email"/></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="ecl-phone"/></div>
+        <div class="form-group"><label>Discipline</label><select id="ecl-disc"><option value="All">All</option><option value="RN">RN</option><option value="LPN">LPN</option><option value="CNA">CNA</option><option value="CMA">CMA</option></select></div>
+        <div class="form-group"><label>Active</label><select id="ecl-active"><option value="TRUE">Yes</option><option value="FALSE">No</option></select></div>
+      </div>
+      <div class="form-group"><label>Address</label><input type="text" id="ecl-address"/></div>
+      <div class="form-group"><label>Notes</label><textarea id="ecl-notes"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-danger btn-sm" onclick="deleteClientConfirm()" style="margin-right:auto;">Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal('editClientModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Message -->
 <div class="modal-overlay" id="bulkModal">
   <div class="modal">
     <div class="modal-head"><h3>Send Bulk Message</h3><button class="close-btn" onclick="closeModal('bulkModal')">&times;</button></div>
     <div class="modal-body">
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;font-size:12.5px;color:#92400e;">Only active staff will receive bulk messages.</div>
       <div class="form-group"><label>Recipients</label><select id="bulk-targets"><option value="active">All Active Staff</option><option value="disc:RN">RN Only</option><option value="disc:LPN">LPN Only</option><option value="disc:CNA">CNA Only</option><option value="disc:CMA">CMA Only</option></select></div>
-      <div class="form-group"><label>Email Subject</label><input type="text" id="bulk-subject" placeholder="Message subject"/></div>
-      <div class="form-group"><label>Message Body</label><textarea id="bulk-body" style="min-height:120px;" placeholder="Write your message here..."></textarea></div>
+      <div class="form-group"><label>Subject</label><input type="text" id="bulk-subject" placeholder="Message subject"/></div>
+      <div class="form-group"><label>Message Body (HTML or plain text)</label><textarea id="bulk-body" style="min-height:120px;" placeholder="Write your message here..."></textarea></div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('bulkModal')">Cancel</button>
@@ -463,299 +524,448 @@ tbody td { padding: 11px 14px; font-size: 13.5px; }
 <div id="toast"></div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbwq_QJ-fqF6PHAUqd8LJvxCmOKrYkNme85m5cCOKX3TdsLe4oMgiH3VrsbsWOCMVD8o/exec';
+// ================================================================
+// CONFIG — your Apps Script web app URL
+// ================================================================
+const API = 'https://script.google.com/macros/s/AKfycbyHUvR1LQXw_XbHDvtTrs-_yXC5IyEuulFcb0i6Al5Ty_3IKcCG0FQT9z4hmzb1MYEZ/exec';
 
-let allStaff = [], allDispatch = [], allLogs = [], allTemplates = [];
-let authenticated = false;
+// ================================================================
+// STATE
+// ================================================================
+let allStaff=[], allDispatch=[], allLogs=[], allTemplates=[], allClients=[];
 
+// ================================================================
+// SESSION PERSISTENCE — survives refresh
+// ================================================================
+const SESSION_KEY = 'cn_admin_session';
+
+function saveSession() { sessionStorage.setItem(SESSION_KEY,'1'); }
+function clearSession(){ sessionStorage.removeItem(SESSION_KEY); }
+function hasSession()  { return sessionStorage.getItem(SESSION_KEY)==='1'; }
+
+// ================================================================
+// AUTH
+// ================================================================
 async function login() {
+  const user = document.getElementById('loginUser').value.trim();
   const pass = document.getElementById('loginPass').value;
-  if (!pass) return;
+  if (!user || !pass) { document.getElementById('loginErr').style.display='block'; return; }
   try {
-    const res = await api({ action: 'auth', password: pass });
+    const res = await api({ action:'auth', username:user, password:pass });
     if (res.ok) {
-      authenticated = true;
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('app').classList.add('visible');
-      initApp();
+      saveSession();
+      showApp();
     } else {
-      document.getElementById('loginErr').style.display = 'block';
+      document.getElementById('loginErr').style.display='block';
     }
-  } catch (e) { document.getElementById('loginErr').style.display = 'block'; }
+  } catch(e) { document.getElementById('loginErr').style.display='block'; }
 }
-document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+document.getElementById('loginUser').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('loginPass').focus(); });
+document.getElementById('loginPass').addEventListener('keydown', e=>{ if(e.key==='Enter') login(); });
 
 function logout() {
-  authenticated = false;
+  clearSession();
   document.getElementById('loginScreen').classList.remove('hidden');
   document.getElementById('app').classList.remove('visible');
-  document.getElementById('loginPass').value = '';
-  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginErr').style.display='none';
+  history.replaceState(null,'',location.href); // reset history state
 }
 
+function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  initApp();
+}
+
+// ── On page load: restore session if exists ───────────────────
+window.addEventListener('load', () => {
+  if (hasSession()) { showApp(); }
+});
+
+// ── Back button: go to previous page within app, never exit ──
+window.addEventListener('popstate', e => {
+  if (hasSession()) {
+    const page = e.state && e.state.page ? e.state.page : 'dashboard';
+    const disc = e.state && e.state.disc ? e.state.disc : '';
+    navInternal(page, disc);
+  }
+});
+
+// ================================================================
+// API HELPER
+// ================================================================
 async function api(params) {
   const url = new URL(API);
-  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  Object.entries(params).forEach(([k,v]) => url.searchParams.set(k,String(v)));
   const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
+// ================================================================
+// INIT
+// ================================================================
 async function initApp() {
-  await Promise.all([loadDispatchStatus(), loadDashboard(), loadStaff(), loadDispatchLog(), loadSentLog(), loadTemplates()]);
+  await Promise.all([
+    loadDispatchStatus(),
+    loadDashboard(),
+    loadStaff(),
+    loadDispatchLog(),
+    loadSentLog(),
+    loadTemplates(),
+    loadClients()
+  ]);
 }
 
-async function refreshPage() { toast('Refreshing...'); await initApp(); toast('Data refreshed', 'success'); }
+async function refreshPage() {
+  toast('Refreshing...');
+  await initApp();
+  toast('Refreshed', 'success');
+}
 
-function nav(page, disc = '') {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-  const el = document.getElementById(`page-${page}`);
-  if (el) el.classList.add('active');
-  const navEl = document.getElementById(`nav-${disc || page}`);
-  if (navEl) navEl.classList.add('active');
-  if (page === 'staff') {
-    document.getElementById('staffPageTitle').textContent = disc ? `${disc} Staff` : 'All Staff';
-    document.getElementById('staffPageSub').textContent   = disc ? `${disc} discipline` : 'All disciplines';
-    document.getElementById('staffDiscFilter').value = disc;
-    filterStaff();
-  }
-  const titles = { dashboard: 'Dashboard', dispatch: 'Dispatch Log', staff: disc ? `${disc} Staff` : 'All Staff', sentlog: 'Message Log', templates: 'Templates' };
-  document.getElementById('pageTitle').textContent = titles[page] || page;
+// ================================================================
+// NAVIGATION — history-aware, back button works
+// ================================================================
+function nav(page, disc='') {
+  history.pushState({ page, disc }, '', '#'+page+(disc?'-'+disc:''));
+  navInternal(page, disc);
   return false;
 }
 
+function navInternal(page, disc='') {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-nav a').forEach(a=>a.classList.remove('active'));
+  const el = document.getElementById(`page-${page}`);
+  if (el) el.classList.add('active');
+  const navEl = document.getElementById(`nav-${disc||page}`);
+  if (navEl) navEl.classList.add('active');
+  if (page==='staff') {
+    document.getElementById('staffPageTitle').textContent = disc ? `${disc} Staff` : 'All Staff';
+    document.getElementById('staffPageSub').textContent   = disc ? `${disc} — filtered view` : 'All disciplines';
+    document.getElementById('staffDiscFilter').value = disc;
+    filterStaff();
+  }
+  const titles={ dashboard:'Dashboard', dispatch:'Dispatch Log', clients:'Client Facilities', staff: disc?`${disc} Staff`:'All Staff', sentlog:'Message Log', templates:'Templates' };
+  document.getElementById('pageTitle').textContent = titles[page]||page;
+}
+
+// ================================================================
+// DISPATCH STATUS
+// ================================================================
 async function loadDispatchStatus() {
-  const res = await api({ action: 'getDispatchStatus' });
-  const on  = res.enabled !== false;
-  document.getElementById('statusDot').className  = `status-dot ${on ? 'on' : 'off'}`;
-  document.getElementById('statusText').textContent = on ? 'Running' : 'Paused';
-  document.getElementById('dispatchToggle').checked = on;
+  try {
+    const res = await api({ action:'getDispatchStatus' });
+    const on  = res.enabled !== false;
+    document.getElementById('statusDot').className  = `dot ${on?'on':'off'}`;
+    document.getElementById('statusText').textContent = on ? 'Running' : 'Paused';
+    document.getElementById('dispatchToggle').checked = on;
+  } catch(e){}
 }
 
 async function toggleDispatch(el) {
   await api({ action: el.checked ? 'enableDispatch' : 'disableDispatch' });
   await loadDispatchStatus();
-  toast(el.checked ? 'Dispatch engine enabled' : 'Dispatch engine paused', 'success');
+  toast(el.checked ? 'Dispatch enabled' : 'Dispatch paused', 'success');
 }
 
+// ================================================================
+// DASHBOARD
+// ================================================================
 async function loadDashboard() {
-  const [staffRes, dispatchRes, logRes] = await Promise.all([api({ action: 'getStaff' }), api({ action: 'getDispatchLog' }), api({ action: 'getSentLog' })]);
-  const staff = staffRes.staff || [];
-  document.getElementById('stat-total').textContent  = staff.length;
-  document.getElementById('stat-active').textContent = staff.filter(s => s.status.toLowerCase() === 'active').length;
-  const today = new Date().toLocaleDateString();
-  const dispatch = dispatchRes.logs || [];
-  document.getElementById('stat-dispatched').textContent = dispatch.filter(d => d.decision === 'dispatched' && new Date(d.timestamp).toLocaleDateString() === today).length;
-  const sevenDaysAgo = new Date(Date.now() - 7 * 86400000);
-  document.getElementById('stat-msgs').textContent = (logRes.logs || []).filter(l => new Date(l.sentAt) >= sevenDaysAgo).length;
-  const tbody = document.getElementById('recentDispatch');
-  const recent = dispatch.slice(0, 8);
-  tbody.innerHTML = recent.length ? recent.map(d => `<tr>
-    <td style="font-size:12px;color:var(--slate);">${formatTime(d.timestamp)}</td>
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;">${esc(d.subject)}</td>
-    <td style="font-size:12px;color:var(--slate);">${esc(shortenEmail(d.from))}</td>
-    <td><span class="dec-${d.decision}">${cap(d.decision)}</span></td>
-    <td>${d.staffType ? `<span class="badge badge-navy">${d.staffType}</span>` : '—'}</td>
-    <td>${d.notified || 0}</td>
-  </tr>`).join('') : `<tr><td colspan="6"><div class="empty-state"><div style="font-size:14px;">No activity yet</div></div></td></tr>`;
+  try {
+    const [staffRes, dispRes, logRes, clientRes] = await Promise.all([
+      api({action:'getStaff'}), api({action:'getDispatchLog'}),
+      api({action:'getSentLog'}), api({action:'getClients'})
+    ]);
+    const staff    = staffRes.staff || [];
+    const dispatch = dispRes.logs   || [];
+    const clients  = clientRes.clients || [];
+    document.getElementById('stat-total').textContent    = staff.length;
+    document.getElementById('stat-active').textContent   = staff.filter(s=>s.status.toLowerCase()==='active').length;
+    document.getElementById('stat-clients').textContent  = clients.length;
+    const today = new Date().toLocaleDateString();
+    document.getElementById('stat-dispatched').textContent = dispatch.filter(d=>d.decision==='dispatched'&&new Date(d.timestamp).toLocaleDateString()===today).length;
+    const tbody = document.getElementById('recentDispatch');
+    tbody.innerHTML = dispatch.slice(0,8).map(d=>`<tr>
+      <td style="font-size:12px;color:var(--slate);white-space:nowrap;">${fmtTime(d.timestamp)}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;">${esc(d.subject)}</td>
+      <td style="font-size:12px;color:var(--slate);">${esc(shortEmail(d.from))}</td>
+      <td><span class="dec-${d.decision}">${cap(d.decision)}</span></td>
+      <td>${d.staffType?`<span class="badge badge-navy">${d.staffType}</span>`:'—'}</td>
+      <td>${d.notified||0}</td>
+    </tr>`).join('') || `<tr><td colspan="6"><div class="empty-state">No activity yet</div></td></tr>`;
+  } catch(e){}
 }
 
+// ================================================================
+// DISPATCH LOG
+// ================================================================
 async function loadDispatchLog() {
-  const res = await api({ action: 'getDispatchLog' });
-  allDispatch = res.logs || [];
-  renderDispatch(allDispatch);
+  try { const res=await api({action:'getDispatchLog'}); allDispatch=res.logs||[]; renderDispatch(allDispatch); } catch(e){}
 }
-
 function renderDispatch(items) {
-  const tbody = document.getElementById('dispatchTable');
-  tbody.innerHTML = items.length ? items.map(d => `<tr>
-    <td style="font-size:12px;color:var(--slate);white-space:nowrap;">${formatTime(d.timestamp)}</td>
-    <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;" title="${esc(d.subject)}">${esc(d.subject)}</td>
-    <td style="font-size:12px;color:var(--slate);">${esc(shortenEmail(d.from))}</td>
-    <td><span class="dec-${d.decision}">${cap(d.decision)}</span></td>
-    <td>${d.staffType ? `<span class="badge badge-navy">${d.staffType}</span>` : '—'}</td>
-    <td style="font-size:12px;">${d.date || '—'}</td>
-    <td style="font-size:12px;">${esc(d.location) || '—'}</td>
-    <td style="text-align:center;">${d.notified || 0}</td>
-    <td style="font-size:11px;color:var(--slate);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(d.reason)}">${esc(d.reason)}</td>
-  </tr>`).join('') : `<tr><td colspan="9"><div class="empty-state"><div style="font-size:14px;">No dispatch records found</div></div></td></tr>`;
+  document.getElementById('dispatchTable').innerHTML = items.length
+    ? items.map(d=>`<tr>
+      <td style="font-size:12px;color:var(--slate);white-space:nowrap;">${fmtTime(d.timestamp)}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;">${esc(d.subject)}</td>
+      <td style="font-size:12px;color:var(--slate);">${esc(shortEmail(d.from))}</td>
+      <td><span class="dec-${d.decision}">${cap(d.decision)}</span></td>
+      <td>${d.staffType?`<span class="badge badge-navy">${d.staffType}</span>`:'—'}</td>
+      <td style="font-size:12px;">${d.date||'—'}</td>
+      <td style="font-size:12px;">${esc(d.location)||'—'}</td>
+      <td style="text-align:center;">${d.notified||0}</td>
+      <td style="font-size:11px;color:var(--slate);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(d.reason)}</td>
+    </tr>`).join('')
+    : `<tr><td colspan="9"><div class="empty-state">No dispatch records</div></td></tr>`;
 }
-
 function filterDispatch() {
-  const q = document.getElementById('dispatchSearch').value.toLowerCase();
-  const f = document.getElementById('dispatchFilter').value;
-  renderDispatch(allDispatch.filter(d => (!q || d.subject.toLowerCase().includes(q) || (d.from||'').toLowerCase().includes(q) || (d.location||'').toLowerCase().includes(q)) && (!f || d.decision === f)));
+  const q=document.getElementById('dispatchSearch').value.toLowerCase();
+  const f=document.getElementById('dispatchFilter').value;
+  renderDispatch(allDispatch.filter(d=>(!q||d.subject.toLowerCase().includes(q)||(d.from||'').toLowerCase().includes(q)||(d.location||'').toLowerCase().includes(q))&&(!f||d.decision===f)));
 }
 
+// ================================================================
+// CLIENTS
+// ================================================================
+async function loadClients() {
+  try { const res=await api({action:'getClients'}); allClients=res.clients||[]; renderClients(allClients); } catch(e){}
+}
+function renderClients(items) {
+  document.getElementById('clientTable').innerHTML = items.length
+    ? items.map(c=>`<tr>
+      <td style="font-size:12px;font-family:monospace;color:var(--slate);">${c.id}</td>
+      <td style="font-weight:500;">${esc(c.facility)}</td>
+      <td style="font-size:12.5px;">${esc(c.contact)||'—'}</td>
+      <td style="font-size:12.5px;">${c.email?`<a href="mailto:${c.email}" style="color:var(--navy);">${c.email}</a>`:'<span style="color:var(--red);font-size:11px;">Missing</span>'}</td>
+      <td style="font-size:12.5px;">${c.phone||'—'}</td>
+      <td>${c.discipline?`<span class="badge badge-navy">${c.discipline}</span>`:'—'}</td>
+      <td><span class="badge ${c.active?'badge-green':'badge-slate'}">${c.active?'Active':'Inactive'}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="editClient('${c.id}')">Edit</button></td>
+    </tr>`).join('')
+    : `<tr><td colspan="8"><div class="empty-state">No clients yet. Add your first facility.</div></td></tr>`;
+}
+function filterClients() {
+  const q=document.getElementById('clientSearch').value.toLowerCase();
+  const d=document.getElementById('clientDiscFilter').value;
+  renderClients(allClients.filter(c=>(!q||c.facility.toLowerCase().includes(q)||(c.contact||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q))&&(!d||c.discipline===d)));
+}
+async function addClient() {
+  const p={action:'addClient', facility:document.getElementById('cl-facility').value, contact:document.getElementById('cl-contact').value, email:document.getElementById('cl-email').value, phone:document.getElementById('cl-phone').value, discipline:document.getElementById('cl-disc').value, address:document.getElementById('cl-address').value, notes:document.getElementById('cl-notes').value, active:document.getElementById('cl-active').value};
+  if(!p.facility){toast('Facility name required','error');return;}
+  const res=await api(p);
+  if(res.ok){toast(`Facility added (${res.id})`,'success');closeModal('addClientModal');await loadClients();await loadDashboard();}
+  else toast(res.error||'Failed','error');
+}
+function editClient(id) {
+  const c=allClients.find(x=>x.id===id); if(!c) return;
+  document.getElementById('ecl-id').value=c.id; document.getElementById('ecl-facility').value=c.facility;
+  document.getElementById('ecl-contact').value=c.contact; document.getElementById('ecl-email').value=c.email;
+  document.getElementById('ecl-phone').value=c.phone; document.getElementById('ecl-disc').value=c.discipline||'All';
+  document.getElementById('ecl-address').value=c.address; document.getElementById('ecl-notes').value=c.notes;
+  document.getElementById('ecl-active').value=c.active?'TRUE':'FALSE';
+  openModal('editClientModal');
+}
+async function saveClient() {
+  const p={action:'updateClient', id:document.getElementById('ecl-id').value, facility:document.getElementById('ecl-facility').value, contact:document.getElementById('ecl-contact').value, email:document.getElementById('ecl-email').value, phone:document.getElementById('ecl-phone').value, discipline:document.getElementById('ecl-disc').value, address:document.getElementById('ecl-address').value, notes:document.getElementById('ecl-notes').value, active:document.getElementById('ecl-active').value};
+  const res=await api(p);
+  if(res.ok){toast('Facility updated','success');closeModal('editClientModal');await loadClients();}
+  else toast(res.error||'Failed','error');
+}
+async function deleteClientConfirm() {
+  if(!confirm('Delete this client facility?')) return;
+  const id=document.getElementById('ecl-id').value;
+  const res=await api({action:'deleteClient',id});
+  if(res.ok){toast('Facility deleted','success');closeModal('editClientModal');await loadClients();await loadDashboard();}
+  else toast(res.error||'Failed','error');
+}
+
+// ================================================================
+// STAFF
+// ================================================================
 async function loadStaff() {
-  const res = await api({ action: 'getStaff' });
-  allStaff  = res.staff || [];
-  renderStaff(allStaff);
+  try { const res=await api({action:'getStaff'}); allStaff=res.staff||[]; renderStaff(allStaff); } catch(e){}
 }
-
 function renderStaff(items) {
-  const tbody = document.getElementById('staffTable');
-  tbody.innerHTML = items.length ? items.map(s => `<tr>
-    <td style="font-size:12px;font-family:monospace;color:var(--slate);">${s.id}</td>
-    <td style="font-weight:500;">${esc(s.name)}</td>
-    <td><span class="badge disc-${s.discipline.toLowerCase()}">${s.discipline}</span></td>
-    <td style="font-size:12.5px;">${s.email ? `<a href="mailto:${s.email}" style="color:var(--navy);">${s.email}</a>` : '<span style="color:var(--red);font-size:11px;">Missing</span>'}</td>
-    <td style="font-size:12.5px;">${s.phone || '—'}</td>
-    <td><span class="badge ${s.status.toLowerCase()==='active'?'badge-green':'badge-slate'}">${s.status}</span></td>
-    <td style="white-space:nowrap;">
-      <button class="btn btn-ghost btn-sm" onclick="viewStaff('${s.id}')">View</button>
-      <button class="btn btn-ghost btn-sm" onclick="editStaff('${s.id}')">Edit</button>
-    </td>
-  </tr>`).join('') : `<tr><td colspan="7"><div class="empty-state"><div style="font-size:14px;">No staff found</div></div></td></tr>`;
+  document.getElementById('staffTable').innerHTML = items.length
+    ? items.map(s=>`<tr>
+      <td style="font-size:12px;font-family:monospace;color:var(--slate);">${s.id}</td>
+      <td style="font-weight:500;">${esc(s.name)}</td>
+      <td><span class="badge disc-${s.discipline.toLowerCase()}">${s.discipline}</span></td>
+      <td style="font-size:12.5px;">${s.email?`<a href="mailto:${s.email}" style="color:var(--navy);">${s.email}</a>`:'<span style="color:var(--red);font-size:11px;">Missing</span>'}</td>
+      <td style="font-size:12.5px;">${s.phone||'—'}</td>
+      <td><span class="badge ${s.status.toLowerCase()==='active'?'badge-green':'badge-slate'}">${s.status}</span></td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="viewStaff('${s.id}')">View</button>
+        <button class="btn btn-ghost btn-sm" onclick="editStaff('${s.id}')">Edit</button>
+      </td>
+    </tr>`).join('')
+    : `<tr><td colspan="7"><div class="empty-state">No staff found</div></td></tr>`;
 }
-
 function filterStaff() {
-  const q  = document.getElementById('staffSearch').value.toLowerCase();
-  const fd = document.getElementById('staffDiscFilter').value;
-  const fs = document.getElementById('staffStatusFilter').value;
-  renderStaff(allStaff.filter(s =>
-    (!q  || s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || (s.facility||'').toLowerCase().includes(q)) &&
-    (!fd || s.discipline.toUpperCase() === fd.toUpperCase()) &&
-    (!fs || s.status.toLowerCase() === fs.toLowerCase())
-  ));
+  const q=document.getElementById('staffSearch').value.toLowerCase();
+  const fd=document.getElementById('staffDiscFilter').value;
+  const fs=document.getElementById('staffStatusFilter').value;
+  renderStaff(allStaff.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q)||(s.facility||'').toLowerCase().includes(q))&&(!fd||s.discipline.toUpperCase()===fd.toUpperCase())&&(!fs||s.status.toLowerCase()===fs.toLowerCase())));
 }
-
 async function viewStaff(id) {
-  document.getElementById('detailName').textContent = 'Loading...';
-  document.getElementById('staffDetailBody').innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+  document.getElementById('detailName').textContent='Loading...';
+  document.getElementById('staffDetailBody').innerHTML='<div class="empty-state"><div class="spinner"></div></div>';
   openModal('staffDetailModal');
-  const res = await api({ action: 'getStaffById', id });
-  if (!res.ok) { document.getElementById('staffDetailBody').innerHTML = `<p style="color:var(--red);">${res.error}</p>`; return; }
-  const e = res.employee;
-  document.getElementById('detailName').textContent = e.name;
-  const creds = e.credentials ? Object.entries(e.credentials).filter(([k,v]) => v && v !== 'undefined').map(([k,v]) => `<div class="cred-item"><div class="cred-item-label">${esc(k)}</div><div class="cred-item-value">${esc(v)}</div></div>`).join('') : '';
-  document.getElementById('staffDetailBody').innerHTML = `
+  const res=await api({action:'getStaffById',id});
+  if(!res.ok){document.getElementById('staffDetailBody').innerHTML=`<p style="color:var(--red);">${res.error}</p>`;return;}
+  const e=res.employee;
+  document.getElementById('detailName').textContent=e.name;
+  const creds=e.credentials?Object.entries(e.credentials).filter(([k,v])=>v&&v!=='undefined'&&v!=='').map(([k,v])=>`<div class="cred-item"><div class="cred-item-label">${esc(k)}</div><div class="cred-item-value">${esc(v)}</div></div>`).join(''):'';
+  document.getElementById('staffDetailBody').innerHTML=`
     <div class="grid-2" style="margin-bottom:18px;">
-      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">ID</div><div style="font-family:monospace;">${e.id}</div></div>
+      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">ID</div><div style="font-family:monospace;font-size:13px;">${e.id}</div></div>
       <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Discipline</div><div><span class="badge disc-${e.discipline.toLowerCase()}">${e.discipline}</span></div></div>
-      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Email</div><div>${e.email||'—'}</div></div>
-      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Phone</div><div>${e.phone||'—'}</div></div>
+      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Email</div><div style="font-size:13px;">${e.email||'—'}</div></div>
+      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Phone</div><div style="font-size:13px;">${e.phone||'—'}</div></div>
       <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Status</div><div><span class="badge ${e.status.toLowerCase()==='active'?'badge-green':'badge-slate'}">${e.status}</span></div></div>
-      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Hire Date</div><div>${e.hireDate||'—'}</div></div>
-      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Date of Birth</div><div>${e.dob||'—'}</div></div>
-      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Facility</div><div>${e.facility||'—'}</div></div>
+      <div><div style="font-size:11px;color:var(--slate);font-weight:600;margin-bottom:3px;">Hire Date</div><div style="font-size:13px;">${e.hireDate||'—'}</div></div>
     </div>
     ${e.notes?`<div style="margin-bottom:16px;padding:12px;background:var(--surface);border-radius:5px;font-size:13px;color:var(--slate);">${esc(e.notes)}</div>`:''}
-    ${creds?`<div style="margin-bottom:4px;font-size:12px;font-weight:600;color:var(--slate);letter-spacing:.5px;text-transform:uppercase;">Credentials</div><div class="cred-grid">${creds}</div>`:''}`;
+    ${creds?`<div style="margin-bottom:6px;font-size:11px;font-weight:600;color:var(--slate);letter-spacing:.5px;text-transform:uppercase;">Credentials</div><div class="cred-grid">${creds}</div>`:''}`;
 }
-
 function editStaff(id) {
-  const s = allStaff.find(x => x.id === id);
-  if (!s) return;
-  document.getElementById('edit-id').value     = s.id;
-  document.getElementById('edit-name').value   = s.name;
-  document.getElementById('edit-email').value  = s.email;
-  document.getElementById('edit-phone').value  = s.phone;
-  document.getElementById('edit-rate').value   = s.rate;
-  document.getElementById('edit-status').value = s.status;
-  document.getElementById('edit-dob').value    = s.dob;
-  document.getElementById('edit-notes').value  = s.notes;
+  const s=allStaff.find(x=>x.id===id); if(!s) return;
+  document.getElementById('edit-id').value=s.id; document.getElementById('edit-name').value=s.name;
+  document.getElementById('edit-email').value=s.email; document.getElementById('edit-phone').value=s.phone;
+  document.getElementById('edit-rate').value=s.rate; document.getElementById('edit-status').value=s.status;
+  document.getElementById('edit-dob').value=s.dob; document.getElementById('edit-hire').value=s.hireDate;
+  document.getElementById('edit-facility').value=s.facility; document.getElementById('edit-notes').value=s.notes;
   openModal('editStaffModal');
 }
-
 async function saveStaff() {
-  const params = { action: 'updateStaff', id: document.getElementById('edit-id').value, name: document.getElementById('edit-name').value, email: document.getElementById('edit-email').value, phone: document.getElementById('edit-phone').value, rate: document.getElementById('edit-rate').value, status: document.getElementById('edit-status').value, dob: document.getElementById('edit-dob').value, notes: document.getElementById('edit-notes').value };
-  const res = await api(params);
-  if (res.ok) { toast('Staff member updated', 'success'); closeModal('editStaffModal'); await loadStaff(); }
-  else toast(res.error || 'Update failed', 'error');
+  const p={action:'updateStaff', id:document.getElementById('edit-id').value, name:document.getElementById('edit-name').value, email:document.getElementById('edit-email').value, phone:document.getElementById('edit-phone').value, rate:document.getElementById('edit-rate').value, status:document.getElementById('edit-status').value, dob:document.getElementById('edit-dob').value, hireDate:document.getElementById('edit-hire').value, facility:document.getElementById('edit-facility').value, notes:document.getElementById('edit-notes').value};
+  const res=await api(p);
+  if(res.ok){toast('Staff member updated','success');closeModal('editStaffModal');await loadStaff();}
+  else toast(res.error||'Failed','error');
 }
-
 async function addStaff() {
-  const params = { action: 'addStaff', name: document.getElementById('new-name').value, discipline: document.getElementById('new-disc').value, email: document.getElementById('new-email').value, phone: document.getElementById('new-phone').value, rate: document.getElementById('new-rate').value, status: document.getElementById('new-status').value, dob: document.getElementById('new-dob').value, hireDate: document.getElementById('new-hire').value, facility: document.getElementById('new-facility').value, notes: document.getElementById('new-notes').value };
-  if (!params.name || !params.discipline) { toast('Name and discipline are required', 'error'); return; }
-  const res = await api(params);
-  if (res.ok) { toast(`Staff member added (${res.id})`, 'success'); closeModal('addStaffModal'); await loadStaff(); await loadDashboard(); }
-  else toast(res.error || 'Failed to add staff', 'error');
+  const p={action:'addStaff', name:document.getElementById('new-name').value, discipline:document.getElementById('new-disc').value, email:document.getElementById('new-email').value, phone:document.getElementById('new-phone').value, rate:document.getElementById('new-rate').value, status:document.getElementById('new-status').value, dob:document.getElementById('new-dob').value, hireDate:document.getElementById('new-hire').value, facility:document.getElementById('new-facility').value, notes:document.getElementById('new-notes').value};
+  if(!p.name||!p.discipline){toast('Name and discipline required','error');return;}
+  const res=await api(p);
+  if(res.ok){toast(`Staff added (${res.id})`,'success');closeModal('addStaffModal');await loadStaff();await loadDashboard();}
+  else toast(res.error||'Failed','error');
+}
+async function deleteStaffConfirm() {
+  if(!confirm('Permanently delete this staff member?')) return;
+  const id=document.getElementById('edit-id').value;
+  const res=await api({action:'deleteStaff',id});
+  if(res.ok){toast('Staff deleted','success');closeModal('editStaffModal');await loadStaff();await loadDashboard();}
+  else toast(res.error||'Failed','error');
 }
 
+// ================================================================
+// SENT LOG
+// ================================================================
 async function loadSentLog() {
-  const res = await api({ action: 'getSentLog' });
-  allLogs   = res.logs || [];
-  renderLog(allLogs);
+  try { const res=await api({action:'getSentLog'}); allLogs=res.logs||[]; renderLog(allLogs); } catch(e){}
 }
-
 function renderLog(items) {
-  const typeColors = { birthday:'badge-gold', holiday:'badge-navy', expiry:'badge-amber', email:'badge-slate', sms:'badge-slate', bulk_email:'badge-slate' };
-  document.getElementById('logTable').innerHTML = items.length ? items.map(l => `<tr>
-    <td style="font-size:12px;color:var(--slate);white-space:nowrap;">${formatTime(l.sentAt)}</td>
-    <td><span class="badge ${typeColors[l.type]||'badge-slate'}">${l.type}</span></td>
-    <td style="font-size:12.5px;">${esc(l.recipient)}</td>
-    <td style="font-size:12.5px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(l.subject)}</td>
-    <td><span class="badge badge-green">${l.status}</span></td>
-    <td style="font-size:11.5px;color:var(--slate);">${l.template||'—'}</td>
-  </tr>`).join('') : `<tr><td colspan="6"><div class="empty-state"><div style="font-size:14px;">No messages logged yet</div></div></td></tr>`;
+  const tc={birthday:'badge-gold',holiday:'badge-navy',expiry:'badge-amber',email:'badge-slate',sms:'badge-slate',bulk_email:'badge-slate'};
+  document.getElementById('logTable').innerHTML = items.length
+    ? items.map(l=>`<tr>
+      <td style="font-size:12px;color:var(--slate);white-space:nowrap;">${fmtTime(l.sentAt)}</td>
+      <td><span class="badge ${tc[l.type]||'badge-slate'}">${l.type}</span></td>
+      <td style="font-size:12.5px;">${esc(l.recipient)}</td>
+      <td style="font-size:12.5px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(l.subject)}</td>
+      <td><span class="badge badge-green">${l.status}</span></td>
+    </tr>`).join('')
+    : `<tr><td colspan="5"><div class="empty-state">No messages logged</div></td></tr>`;
 }
-
 function filterLog() {
-  const q = document.getElementById('logSearch').value.toLowerCase();
-  const f = document.getElementById('logTypeFilter').value;
-  renderLog(allLogs.filter(l => (!q||(l.recipient||'').toLowerCase().includes(q)||(l.subject||'').toLowerCase().includes(q))&&(!f||l.type===f)));
+  const q=document.getElementById('logSearch').value.toLowerCase();
+  const f=document.getElementById('logTypeFilter').value;
+  renderLog(allLogs.filter(l=>(!q||(l.recipient||'').toLowerCase().includes(q)||(l.subject||'').toLowerCase().includes(q))&&(!f||l.type===f)));
 }
 
+// ================================================================
+// TEMPLATES
+// ================================================================
 async function loadTemplates() {
-  const res = await api({ action: 'getTemplates' });
-  allTemplates = res.templates || [];
-  document.getElementById('templateTable').innerHTML = allTemplates.length ? allTemplates.map(t => `<tr>
-    <td style="font-family:monospace;font-size:12px;">${t.id}</td>
-    <td><span class="badge badge-navy">${t.type}</span></td>
-    <td style="font-weight:500;">${esc(t.name)}</td>
-    <td style="font-size:12.5px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(t.subject)||'—'}</td>
-    <td><span class="badge ${t.active?'badge-green':'badge-slate'}">${t.active?'Active':'Inactive'}</span></td>
-    <td><button class="btn btn-ghost btn-sm" onclick="previewTemplate('${t.id}')">Preview</button></td>
-  </tr>`).join('') : `<tr><td colspan="6"><div class="empty-state"><div style="font-size:14px;">No templates found</div></div></td></tr>`;
+  try {
+    const res=await api({action:'getTemplates'}); allTemplates=res.templates||[];
+    document.getElementById('templateTable').innerHTML = allTemplates.length
+      ? allTemplates.map(t=>`<tr>
+        <td style="font-family:monospace;font-size:12px;">${t.id}</td>
+        <td><span class="badge badge-navy">${t.type}</span></td>
+        <td style="font-weight:500;">${esc(t.name)}</td>
+        <td style="font-size:12.5px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(t.subject)||'—'}</td>
+        <td><span class="badge ${t.active?'badge-green':'badge-slate'}">${t.active?'Active':'Inactive'}</span></td>
+        <td><button class="btn btn-ghost btn-sm" onclick="previewTemplate('${t.id}')">Preview</button></td>
+      </tr>`).join('')
+      : `<tr><td colspan="6"><div class="empty-state">No templates</div></td></tr>`;
+  } catch(e){}
 }
-
 function previewTemplate(id) {
-  const t = allTemplates.find(x => x.id === id);
-  if (!t) return;
-  const win = window.open('', '_blank', 'width=680,height=600');
-  win.document.write(`<!DOCTYPE html><html><head><title>${t.name}</title></head><body style="margin:20px;font-family:Arial,sans-serif;background:#f1f5f9;">${t.body||'<p>No body defined</p>'}</body></html>`);
+  const t=allTemplates.find(x=>x.id===id); if(!t) return;
+  const w=window.open('','_blank','width=680,height=600');
+  w.document.write(`<!DOCTYPE html><html><head><title>${t.name}</title></head><body style="margin:20px;background:#f1f5f9;">${t.body||'<p>No body</p>'}</body></html>`);
 }
 
+// ================================================================
+// JOBS
+// ================================================================
 async function runJob(action) {
   toast('Running...');
-  const res = await api({ action });
-  if (res.ok) {
-    const msg = action==='runDispatch' ? `Dispatch: ${res.dispatched||0} dispatched, ${res.ignored||0} ignored`
-      : action==='runBirthdays' ? `Birthdays: ${res.sent||0} sent`
-      : action==='runExpiry'    ? `Expiry: ${res.sent||0} emails, ${res.alerts||0} alerts`
-      : 'Job completed';
-    toast(msg, 'success');
-    await loadDashboard(); await loadDispatchLog(); await loadSentLog();
-  } else toast(res.error || 'Job failed', 'error');
+  try {
+    const res=await api({action});
+    if(res.ok){
+      const msg=action==='runDispatch'?`Dispatch: ${res.dispatched||0} dispatched, ${res.ignored||0} ignored`
+        :action==='runBirthdays'?`Birthdays: ${res.sent||0} sent`
+        :action==='runExpiry'?`Expiry: ${res.sent||0} emails, ${res.alerts||0} alerts`
+        :'Done';
+      toast(msg,'success');
+      await loadDashboard(); await loadDispatchLog(); await loadSentLog();
+    } else toast(res.error||'Job failed','error');
+  } catch(e){ toast('Error: '+e.message,'error'); }
 }
 
-function openBulkModal() { openModal('bulkModal'); }
-
+// ================================================================
+// BULK
+// ================================================================
+function openBulkModal(){openModal('bulkModal');}
 async function sendBulk() {
-  const params = { action: 'sendBulkMsg', targets: document.getElementById('bulk-targets').value, customSubject: document.getElementById('bulk-subject').value, customBody: document.getElementById('bulk-body').value };
-  if (!params.customBody) { toast('Message body is required', 'error'); return; }
-  const res = await api(params);
-  if (res.ok) { toast(`Sent to ${res.sent} staff member(s)`, 'success'); closeModal('bulkModal'); await loadSentLog(); }
-  else toast(res.error || 'Send failed', 'error');
+  const p={action:'sendBulkMsg', targets:document.getElementById('bulk-targets').value, customSubject:document.getElementById('bulk-subject').value, customBody:document.getElementById('bulk-body').value};
+  if(!p.customBody){toast('Message body required','error');return;}
+  const res=await api(p);
+  if(res.ok){toast(`Sent to ${res.sent} staff`,'success');closeModal('bulkModal');await loadSentLog();}
+  else toast(res.error||'Failed','error');
 }
 
-function openModal(id)  { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }); });
+// ================================================================
+// MODAL HELPERS
+// ================================================================
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); });
+});
 
+// ================================================================
+// TOAST
+// ================================================================
 let toastTimer;
-function toast(msg, type = '') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `show ${type}`;
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`show ${type}`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.className = ''; }, 3000);
+  toastTimer=setTimeout(()=>{t.className='';},3200);
 }
 
-function esc(str) { if (!str) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function cap(str) { return str ? str.charAt(0).toUpperCase() + str.slice(1) : ''; }
-function formatTime(str) { if (!str) return '—'; try { return new Date(str).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e) { return str; } }
-function shortenEmail(from) { if (!from) return '—'; const m = from.match(/<(.+)>/); return m ? m[1] : from; }
+// ================================================================
+// UTILS
+// ================================================================
+function esc(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):''; }
+function fmtTime(s){ if(!s) return '—'; try{return new Date(s).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}catch(e){return s;} }
+function shortEmail(from){ if(!from) return '—'; const m=from.match(/<(.+)>/); return m?m[1]:from; }
 </script>
 </body>
 </html>
